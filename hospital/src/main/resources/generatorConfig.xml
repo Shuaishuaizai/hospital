@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 配置⽣成器 -->
+<generatorConfiguration>
+    <!--数据库驱动jar -->
+    <classPathEntry
+            location="E:\repository\mysql\mysql-connector-java\8.0.23\mysql-connector-java-8.0.23.jar"
+    />
+    <context id="MyBatis" targetRuntime="MyBatis3">
+        <!--去除注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+        <!--数据库连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/hospital"
+                        userId="root"
+                        password="root">
+        </jdbcConnection>
+        <!--⽣成实体类 指定包名 以及⽣成的地址 （可以⾃定义地址，但是路径不存在不会⾃动创建
+        使⽤Maven⽣成在target⽬录下，会⾃动创建） -->
+        <javaModelGenerator targetPackage="com.kkb.bean"
+
+                            targetProject="E:\IDEA\hospital\src\main\java">
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!--⽣成SQLmapper⽂件 -->
+        <sqlMapGenerator targetPackage="mybatis"
+
+                         targetProject="E:\IDEA\hospital\src\main\resources">
+        </sqlMapGenerator>
+        <!--⽣成Dao⽂件,⽣成接⼝ -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.kkb.dao"
+                             targetProject="E:\IDEA\hospital\src\main\java">
+        </javaClientGenerator>
+        <!--对应mysql的表-->
+        <table tableName="behospital" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="chargeproject" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="doctor" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="drug" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="drugpeople" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="hosregister" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="menu" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="pricepeople" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="role" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="role-menu" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="user" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+
+    </context>
+</generatorConfiguration>

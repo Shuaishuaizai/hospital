@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkb.dao.DrugpeopleMapper">
+  <resultMap id="BaseResultMap" type="com.kkb.bean.Drugpeople">
+    <result column="dr_id" jdbcType="INTEGER" property="drId" />
+    <result column="peopleId" jdbcType="INTEGER" property="peopleid" />
+    <result column="dr_number" jdbcType="INTEGER" property="drNumber" />
+  </resultMap>
+
+</mapper>

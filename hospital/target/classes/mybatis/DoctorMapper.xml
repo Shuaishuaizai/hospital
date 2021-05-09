@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkb.dao.DoctorMapper">
+  <resultMap id="BaseResultMap" type="com.kkb.bean.Doctor">
+    <result column="d_id" jdbcType="INTEGER" property="dId" />
+    <result column="d_idCar" jdbcType="VARCHAR" property="dIdcar" />
+    <result column="d_name" jdbcType="VARCHAR" property="dName" />
+    <result column="d_phone" jdbcType="VARCHAR" property="dPhone" />
+    <result column="d_telPhone" jdbcType="VARCHAR" property="dTelphone" />
+    <result column="d_sex" jdbcType="INTEGER" property="dSex" />
+    <result column="d_birthday" jdbcType="DATE" property="dBirthday" />
+    <result column="d_age" jdbcType="INTEGER" property="dAge" />
+    <result column="d_email" jdbcType="VARCHAR" property="dEmail" />
+    <result column="d_keshi" jdbcType="VARCHAR" property="dKeshi" />
+    <result column="d_xueli" jdbcType="VARCHAR" property="dXueli" />
+    <result column="d_desc" jdbcType="VARCHAR" property="dDesc" />
+    <result column="d_inTime" jdbcType="DATE" property="dIntime" />
+    <result column="d_state" jdbcType="INTEGER" property="dState" />
+  </resultMap>
+<update  id="update" parameterType="com.kkb.bean.Doctor">
+  update doctor set d_idCar=#{dIdcar},d_name=#{dName},d_phone=#{dPhone},d_telPhone=#{dTelphone},d_sex=#{dSex}
+                  ,d_birthday=#{dBirthday},d_age=#{dAge},d_email=#{dEmail},d_keshi=#{dKeshi},d_xueli=#{dXueli},d_desc=#{dDesc},d_inTime=#{dIntime}
+                  ,d_state=#{dState}
+  where d_id=#{dId}
+</update>
+  <select id="selectByParams" resultType="com.kkb.bean.Doctor">
+    select * from doctor where 1=1
+    <if test="id != -1">
+      and d_id = #{id}
+    </if>
+    <if test="name != null &amp;&amp; name != ''">
+      and d_name = #{name}
+    </if>
+    <if test="keshi != null &amp;&amp; keshi != ''">
+      and d_keshi = #{keshi}
+    </if>
+  </select>
+  <select id="getDoctors" resultType="com.kkb.bean.Doctor">
+    select * from Doctor where 1=1
+    <if test="offset!=-1">
+      limit #{offset},#{pageNumber}
+    </if>
+  </select>
+
+  <select id="console" resultType="int">
+        select COUNT(d_id) from Doctor
+    </select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkb.dao.HosregisterMapper">
+  <resultMap id="BaseResultMap" type="com.kkb.bean.Hosregister">
+    <result column="hosR_id" jdbcType="INTEGER" property="hosrId" />
+    <result column="hosR_idCar" jdbcType="VARCHAR" property="hosrIdcar" />
+    <result column="hosR_medical" jdbcType="VARCHAR" property="hosrMedical" />
+    <result column="hosR_regPrice" jdbcType="DOUBLE" property="hosrRegprice" />
+    <result column="hosR_phone" jdbcType="VARCHAR" property="hosrPhone" />
+    <result column="hosR_selfPrice" jdbcType="INTEGER" property="hosrSelfprice" />
+    <result column="hosR_sex" jdbcType="INTEGER" property="hosrSex" />
+    <result column="hosR_age" jdbcType="INTEGER" property="hosrAge" />
+    <result column="hosR_work" jdbcType="VARCHAR" property="hosrWork" />
+    <result column="hosR_lookDoctor" jdbcType="VARCHAR" property="hosrLookdoctor" />
+    <result column="d_id" jdbcType="INTEGER" property="dId" />
+    <result column="hosR_remark" jdbcType="VARCHAR" property="hosrRemark" />
+    <result column="hosR_state" jdbcType="INTEGER" property="hosrState" />
+  </resultMap>
+  <update id="update" parameterType="com.kkb.bean.Hosregister">
+    update hosregister set hosR_idCar=#{hosrIdcar},hosR_medical=#{hosrMedical},hosR_regprice=#{hosrRegprice}
+                  ,hosR_phone=#{hosrPhone},hosR_selfPrice=#{hosrSelfprice},hosR_sex=#{hosrSex},hosR_age=#{hosrAge} ,hosR_work=#{hosrWork},hosR_lookdoctor=#{hosrLookdoctor}
+    ,d_id=#{dId},hosR_remark=#{hosrRemark},hosR_state=#{hosrState}
+    where hosR_id = #{hosrId}
+  </update>
+</mapper>

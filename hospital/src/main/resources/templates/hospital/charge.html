@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>收费项目登记</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/Css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/Css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/Css/style.css"/>
+    <script type="text/javascript" src="/Js/jquery.js"></script>
+
+    <script type="text/javascript" src="/Js/bootstrap.js"></script>
+    <script type="text/javascript" src="/Js/ckform.js"></script>
+    <script type="text/javascript" src="/Js/common.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-table/1.17.1/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-table/1.17.1/bootstrap-table.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-table/1.17.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $('#newNav').click(function () {
+                window.location.href = "toInsert";
+            });
+        });
+        $(function () {
+
+            $("#findByName").click(function () {
+                $("#charge_list").bootstrapTable(('refresh'));
+                $("#chapName").val();
+            });
+
+        })
+
+        $(function () {
+            $('#backid').click(function () {
+                window.location.href = "dispensing.html";
+            });
+        });
+    </script>
+</head>
+<body>
+
+
+<table class="table table-bordered table-hover definewidth m10">
+    <tr>
+        <td width="10%" class="tableleft">收费项目名称：</td>
+        <td><input type="text" name="name" id="chapName" />
+            <button class="btn btn-primary"  onclick="findByParams()">查询</button>
+            <button class="btn btn-primary" onclick="clearChap()">清空</button>
+        </td>
+
+
+    </tr>
+
+
+</table>
+
+<!--自动生成Bootstrap-->
+<table id="charge_list" class="table table-bordered table-hover definewidth m10"></table>
+
+<!--<table class="table table-bordered table-hover definewidth m10">-->
+
+<div class="inline pull-right page">
+    <button type="button" class="btn btn-success" id="newNav">添加收费项目</button>
+</div>
+<!--</table>-->
+
+</body>
+</html>
+<script>
+    function clearChap() {
+        $("#chapName").val("");
+    }
+
+    $(function () {
+
+        $("#charge_list").bootstrapTable({
+            url: "/charge/getAllCharge",//数据地址
+            striped: true,//是否显示行的间距
+            pageNumber: 1,//初始化加载第几页
+            pagination: true,//是否分页
+            toolbar: "#toolbar",
+            sidePagination: 'server',
+            pageSize: 3,//每页的显示条数
+            pageList: [3, 5, 8, 10],
+            showRefresh: true,//刷新按钮
+            showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
+            strictSearch: true,//设置为 true启用 全匹配搜索，否则为模糊搜索
+            showColumns: true,
+            sortable: true,                     //是否启用排序
+            //请求的参数
+            queryParams: function (params) {
+                var temp = {
+                    offset: params.offset,
+                    pageNumber: params.limit
+                };
+                return temp;
+            },
+            //服务器回应的参数
+            responseHandler(res) {
+                // 修改返回
+                return {
+                    "rows": res.data.rows,
+                    "total": res.data.total
+                };
+            },
+            columns: [
+                {
+                    title: "编号",
+                    field: "chapId",
+                    sortable: false,
+                    visible: true
+                },
+                {
+                    title: "收费项目名称",
+                    field: "chapName",
+                    sortable: false
+                },
+                {
+                    title: "收费金额",
+                    field: "chapMoney",
+                    sortable: false
+                },
+                {
+                    field: 'chapId',
+                    title: '操作',
+                    align: 'center',
+                    width: 400,
+                    valign: 'middle',
+                    formatter: function (value, row, index) {
+                        var id = value;
+                        var result = '';
+                        result += ' <a class="btn btn-info btn-sm " href="/charge/toUpdate/' + id + '">编辑</a>';
+                        result += ' <a class="btn btn-danger btn-sm" onclick="deleBtn()" href="/charge/delete/' + id + '">删除</a>';
+                        return result;
+                    }
+                }
+            ]
+        });
+
+
+    });
+
+    function deleBtn() {
+        alert("删除成功!")
+    }
+
+    function findByParams() {
+        var name = $("input:eq(0)").val()
+        $.ajax({
+            url: "/charge/findByParams",
+            data: {name: name},
+            type: "post",
+            datatype: "json",
+            success: function (data) {
+                if (data.status == 0) {
+                    $("#charge_list").bootstrapTable('load', data.data)
+                }
+            }
+        })
+    }
+
+
+</script>

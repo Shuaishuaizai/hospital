@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkb.dao.DrugMapper">
+  <resultMap id="BaseResultMap" type="com.kkb.bean.Drug">
+    <result column="dr_id" jdbcType="INTEGER" property="drId" />
+    <result column="dr_url" jdbcType="VARCHAR" property="drUrl" />
+    <result column="dr_inPrice" jdbcType="DOUBLE" property="drInprice" />
+    <result column="dr_outPrice" jdbcType="DOUBLE" property="drOutprice" />
+    <result column="dr_name" jdbcType="VARCHAR" property="drName" />
+    <result column="dr_type" jdbcType="VARCHAR" property="drType" />
+    <result column="dr_simDesc" jdbcType="VARCHAR" property="drSimdesc" />
+    <result column="dr_date" jdbcType="DATE" property="drDate" />
+    <result column="dr_detaDesc" jdbcType="VARCHAR" property="drDetadesc" />
+    <result column="dr_fatory" jdbcType="VARCHAR" property="drFatory" />
+    <result column="dr_direction" jdbcType="VARCHAR" property="drDirection" />
+    <result column="dr_remark" jdbcType="VARCHAR" property="drRemark" />
+    <result column="dr_number" jdbcType="INTEGER" property="drNumber" />
+  </resultMap>
+<update id="updateNum" parameterType="com.kkb.bean.Drug">
+  update drug set dr_number = #{drNumber} where dr_id = #{drId}
+</update>
+</mapper>

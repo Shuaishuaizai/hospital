@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkb.dao.BehospitalMapper">
+  <resultMap id="BaseResultMap" type="com.kkb.bean.Behospital">
+    <result column="beH_id" jdbcType="INTEGER" property="behId"/>
+    <result column="beH_nursePeoPle" jdbcType="VARCHAR" property="behNursepeople"/>
+    <result column="beH_patBed" jdbcType="VARCHAR" property="behPatbed"/>
+    <result column="beH_antecedent" jdbcType="DOUBLE" property="behAntecedent"/>
+    <result column="beH_illness" jdbcType="VARCHAR" property="behIllness"/>
+    <result column="beH_closePrice" jdbcType="INTEGER" property="behCloseprice"/>
+    <result column="beH_state" jdbcType="INTEGER" property="behState"/>
+  </resultMap>
+
+  <select id="console" resultType="java.lang.Integer">
+    select COUNT(beH_id) from behospital
+  </select>
+  <select id="getBehospital" resultType="com.kkb.bean.Behospital">
+    select * from behospital where 1=1
+    <if test="offset!=-1">
+      limit #{offset},#{pageNumber}
+    </if>
+  </select>
+  <select id="selectByName" resultType="com.kkb.bean.Behospital">
+      select * from behospital where beH_nursePeoPle=#{name}
+  </select>
+  <select id="selectById" resultType="com.kkb.bean.Behospital">
+      select * from behospital where  beH_id=#{id}
+  </select>
+  <select id="selectByParams" parameterType="map" resultType="com.kkb.bean.Behospital">
+    select * from behospital where 1=1
+    <if test="id != -1">
+      and beH_id = #{id}
+    </if>
+    <if test="name != null &amp;&amp; name != ''">
+      and beH_nursePeoPle = #{name}
+    </if>
+  </select>
+  <select id="getinfo" parameterType="int" resultType="com.kkb.bean.BootStrapTableBC">
+   select b.beH_id,b.beH_nursePeoPle,c.chaP_name,c.chaP_money from pricepeople p,behospital b  ,chargeproject c where p.chaP_id= #{param2}  and b.beH_id=#{param1} and c.chaP_id= #{param2}
+  </select>
+
+</mapper>

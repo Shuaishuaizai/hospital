@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkb.dao.ChargeprojectMapper">
+  <resultMap id="BaseResultMap" type="com.kkb.bean.Chargeproject">
+    <result column="chaP_id" jdbcType="INTEGER" property="chapId" />
+    <result column="chaP_name" jdbcType="VARCHAR" property="chapName" />
+    <result column="chaP_money" jdbcType="DOUBLE" property="chapMoney" />
+  </resultMap>
+  <delete id="deleteOne" parameterType="Integer">
+    delete  from chargeproject  where chaP_id=#{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByName" resultType="com.kkb.bean.Chargeproject">
+    select * from chargeproject where chaP_name=#{name}
+  </select>
+  <select id="console"  resultType="int">
+     select COUNT(chaP_id) from chargeproject
+  </select>
+  <select id="getChargeproject" parameterType="map"  resultType="com.kkb.bean.Chargeproject">
+    select * from chargeproject where 1=1
+    <if test="offset!=-1">
+      limit #{offset},#{pageNumber}
+    </if>
+  </select>
+  <select id="selectById"  parameterType="int"  resultType="com.kkb.bean.Chargeproject">
+    select * from chargeproject where  chaP_id=#{id}
+  </select>
+  <select id="selectByName2" resultType="java.lang.String">
+       select chaP_money from chargeproject where chaP_name=#{name}
+    </select>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkb.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.kkb.bean.User">
+    <result column="u_login_name" jdbcType="INTEGER" property="uLoginName" />
+    <result column="u_passWord" jdbcType="VARCHAR" property="uPassword" />
+    <result column="u_true_name" jdbcType="VARCHAR" property="uTrueName" />
+    <result column="u_email" jdbcType="VARCHAR" property="uEmail" />
+    <result column="u_state" jdbcType="INTEGER" property="uState" />
+    <result column="r_id" jdbcType="INTEGER" property="rId" />
+  </resultMap>
+    <delete id="deleteAll" parameterType="list">
+
+      delete from user where 1=1 and
+
+      <foreach collection="list" item="uId" separator="or">
+         u_id = #{uId}
+      </foreach>
+
+
+    </delete>
+    <select id="check" resultMap="BaseResultMap" parameterType="com.kkb.bean.User">
+    select * from user where u_login_name = #{uLoginName} and u_passWord = #{uPassword}
+  </select>
+<update id="update" parameterType="com.kkb.bean.User">
+  update user set u_passWord = #{uPassword},u_true_name=#{uTrueName},u_email=#{uEmail},u_state=#{uState},r_id=#{rId} where u_id=#{uId}
+</update>
+</mapper>

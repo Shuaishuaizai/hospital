@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>添加收费项目--中软高科-2015</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/Css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/Css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/Css/style.css"/>
+    <script type="text/javascript" src="/Js/jquery.js"></script>
+    <script type="text/javascript" src="/Js/bootstrap.js"></script>
+    <script type="text/javascript" src="/Js/ckform.js"></script>
+    <script type="text/javascript" src="/Js/common.js"></script>
+    <script type="text/javascript" src="/Js/ckeditor/ckeditor.js"></script>
+
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $('#backid').click(function () {
+                window.location.href = "/charge/index";
+            });
+        });
+    </script>
+</head>
+<body>
+<form action="/charge/insert" method="get" class="definewidth m20">
+    <table class="table table-bordered table-hover definewidth m10">
+        <tr>
+            <td width="10%" class="tableleft">编号</td>
+            <td><input onblur="unique()" name="chapId" type="text" value="" placeholder="请输入收费编号"/>
+                <span id="spanId"></span></td>
+        </tr>
+        <tr>
+            <td width="10%" class="tableleft">收费项目名称</td>
+            <td><input onblur="unique()" name="chapName" type="text" value="" placeholder="请输入收费项目名称"/>
+                <span id="spanName"></span></td>
+        </tr>
+
+        <tr>
+            <td width="10%" class="tableleft">收费金额</td>
+            <td><input onblur="unique()" type="text" name="chapMoney" value="" placeholder="请输入收费的金额"/>
+                <span id="spanMoney"></span></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button id="btn" type="submit" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+
+</html>
+<script>
+
+    function unique() {
+        var flag = true;
+        var chargeId = $("input[name='chapId']").val();
+        var chapName = $("input[name='chapName']").val();
+        var chapMoney = $("input[name='chapMoney']").val();
+
+        $.ajax({
+            url: "/charge/getId",
+            type: "post",
+            data: {'chargeId': chargeId},
+            async: false,//ajax异步请求改为同步请求-
+            traditional: true,//传统的方式序列化
+            success: function (data) {
+                if (data.status == 0 && chargeId != "") {
+                    $("span[id='spanId']").html("恭喜,编号可用!").css("color", "green");
+                } else if (chargeId == "") {
+                    $("span[id='spanId']").html("编号不能为空！").css("color", "red");
+                    flag = false;
+                } else if (data.status == -1) {
+                    $("span[id='spanId']").html("编号已被使用！").css("color", "red");
+                    flag = false;
+                }
+            }
+        })
+        if (chapName == "") {
+            $("span[id='spanName']").html("收费项目名称不能为空！").css("color", "red");
+            flag = false;
+        }else {
+            $("span[id='spanName']").html("");
+        }
+        if (chapMoney == "") {
+            $("span[id='spanMoney']").html("金额不能为空！").css("color", "red");
+            flag = false;
+        }else {
+            $("span[id='spanMoney']").html("");
+        }
+        return flag;
+    };
+
+</script>

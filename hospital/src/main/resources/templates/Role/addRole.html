@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="../Css/style.css" />
+    <script type="text/javascript" src="../Js/jquery.js"></script>
+    <script type="text/javascript" src="../Js/jquery.sorted.js"></script>
+    <script type="text/javascript" src="../Js/bootstrap.js"></script>
+    <script type="text/javascript" src="../Js/ckform.js"></script>
+    <script type="text/javascript" src="../Js/common.js"></script>
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+<form action="/role/insert" method="post" class="definewidth m20">
+    <table class="table table-bordered table-hover definewidth m10">
+        <tr>
+            <td width="10%" class="tableleft">角色名称</td>
+            <td><input type="text" name="rName" onblur="unique()" id="name"/><span id="nameMsg"></span></td>
+        </tr>
+        <tr>
+            <td class="tableleft">状态</td>
+            <td>
+                <input type="radio" name="rState" value="0" checked/> 启用  <input type="radio" name="rState" value="1"/> 禁用
+            </td>
+        </tr>
+        <tr>
+            <td class="tableleft">权限</td>
+            <td>
+                <ul th:each="m:${list}"><label class='checkbox inline'><input type='checkbox' name='mIds' th:value="${m.mId}" th:text="${m.mName}"/></label></ul>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableleft"></td>
+            <td>
+                <button id="btn" type="submit" class="btn btn-primary">保存</button> &nbsp;&nbsp;
+                <button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+<script>
+    $(function () {
+        $(':checkbox[name="mIds"]').click(function () {
+            $(':checkbox', $(this).closest('li')).prop('checked', this.checked);
+        });
+
+        $('#backid').click(function(){
+            window.location.href="/user/index";
+        });
+    });
+    function unique() {
+        var flag = true;
+        var val = $("#name").val();
+        $.ajax({
+            url: "/role/getName",
+            type: "post",
+            data: {'roleName': val},
+            async: false,//ajax异步请求改为同步请求-
+            traditional: true,//传统的方式序列化
+            success: function (data) {
+                if (data.status == 0 && val != "") {
+                    $("span[id='nameMsg']").html("恭喜,名字可用!");
+                } else if (val == "") {
+                    $("span[id='nameMsg']").html("名称不能为空！").css("color", "red");
+                    flag = false;
+                } else if (data.status == -1) {
+                    $("span[id='nameMsg']").html("名称已被使用！").css("color", "red");
+                    flag = false;
+                }
+            }
+        })
+        return flag;
+    };
+    $(function () {
+        $(':checkbox[name="mIds"]').click(function () {
+            $(':checkbox', $(this).closest('li')).prop('checked', this.checked);
+        });
+
+        $('#backid').click(function(){
+            window.location.href="/role/index";
+        });
+        //名字动态判断 是否唯一
+
+        $('#btn').click(function () {
+            var rState = $("input[name='status']:checked").val()
+            var rName = $("#name").val();
+            var msg = unique();
+            if (rName == "") {
+                alert("名字不能为空!")
+            } else if (msg == false) {
+                alert("请检查名字状态!")
+            } else {
+                $.getJSON("/role/updateRoles", {'rName': rName, 'rState': rState}, function (data) {
+                    alert(data.msg)
+                    window.location.href = "index.html";
+                })
+            }
+        });
+    });
+</script>
